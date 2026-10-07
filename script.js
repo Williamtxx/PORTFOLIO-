@@ -44,3 +44,36 @@ if("IntersectionObserver"in window){
 }
 
 console.log("%cWilliam Arteaga — Cybersecurity Portfolio","color:#50e3b2;font-size:16px;font-weight:bold;");
+
+
+const projectModal=document.getElementById("socL1Modal");
+const imageLightbox=document.getElementById("imageLightbox");
+const lightboxImage=document.getElementById("lightboxImage");
+const lightboxTitle=document.getElementById("lightboxTitle");
+
+function setModal(open){
+  if(!projectModal)return;
+  projectModal.classList.toggle("active",open);
+  projectModal.setAttribute("aria-hidden",String(!open));
+  document.body.classList.toggle("modal-open",open);
+}
+
+document.querySelectorAll("[data-project-modal='soc-l1']").forEach(btn=>btn.addEventListener("click",()=>setModal(true)));
+document.querySelectorAll("[data-modal-close]").forEach(el=>el.addEventListener("click",()=>setModal(false)));
+
+function setLightbox(open,src="",title=""){
+  if(!imageLightbox)return;
+  imageLightbox.classList.toggle("active",open);
+  imageLightbox.setAttribute("aria-hidden",String(!open));
+  if(open){lightboxImage.src=src;lightboxImage.alt=title;lightboxTitle.textContent=title;}
+  else{lightboxImage.src="";lightboxTitle.textContent="";}
+}
+
+document.querySelectorAll("[data-lightbox-src]").forEach(btn=>btn.addEventListener("click",()=>setLightbox(true,btn.dataset.lightboxSrc,btn.dataset.lightboxTitle||"SOC investigation evidence")));
+document.querySelectorAll("[data-lightbox-close]").forEach(el=>el.addEventListener("click",()=>setLightbox(false)));
+
+document.addEventListener("keydown",e=>{
+  if(e.key!=="Escape")return;
+  if(imageLightbox?.classList.contains("active")){setLightbox(false);return;}
+  if(projectModal?.classList.contains("active"))setModal(false);
+});
