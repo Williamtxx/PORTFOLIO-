@@ -5,3 +5,10 @@
 @media(max-width:760px){.evidence-gallery{grid-template-columns:1fr}.project-card-body{padding:25px 22px}.lightbox-window{width:100%}.lightbox-window img{max-height:calc(100vh - 90px)}}
 
 .lab-badge{display:inline-flex;align-items:center;width:max-content;margin:0 0 1.1rem;padding:.5rem .75rem;border:1px solid rgba(180,255,0,.28);border-radius:999px;background:rgba(180,255,0,.06);color:#b8ff00;font-size:.68rem;font-weight:800;letter-spacing:.12em;}
+
+/* Reliability and accessibility refinements for project evidence */
+body.modal-open{overflow:hidden}
+.project-modal{overscroll-behavior:contain}
+.project-modal[aria-hidden="true"],.image-lightbox[aria-hidden="true"]{pointer-events:none}
+.project-modal.active,.image-lightbox.active{pointer-events:auto}
+.evidence-image-button img.image-load-error{min-height:150px;object-fit:contain;padding:20px;color:var(--text-muted);font-size:.75rem}

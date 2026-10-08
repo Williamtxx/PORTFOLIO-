@@ -46,40 +46,103 @@ if("IntersectionObserver"in window){
 console.log("%cWilliam Arteaga — Cybersecurity Portfolio","color:#50e3b2;font-size:16px;font-weight:bold;");
 
 
-const projectModals={
-  "soc-l1":document.getElementById("socL1Modal"),
-  "alert-8816":document.getElementById("alert8816Modal")
+// Project detail modals and evidence lightbox. Delegated handlers keep every
+// project card and screenshot functional even if markup is rearranged later.
+const projectModals = {
+  "soc-l1": document.getElementById("socL1Modal"),
+  "alert-8816": document.getElementById("alert8816Modal")
 };
-let activeProjectModal=null;
-const imageLightbox=document.getElementById("imageLightbox");
-const lightboxImage=document.getElementById("lightboxImage");
-const lightboxTitle=document.getElementById("lightboxTitle");
+let activeProjectModal = null;
+const imageLightbox = document.getElementById("imageLightbox");
+const lightboxImage = document.getElementById("lightboxImage");
+const lightboxTitle = document.getElementById("lightboxTitle");
 
-function setModal(modal,open){
-  if(!modal)return;
-  modal.classList.toggle("active",open);
-  modal.setAttribute("aria-hidden",String(!open));
-  if(open)activeProjectModal=modal;
-  else if(activeProjectModal===modal)activeProjectModal=null;
-  document.body.classList.toggle("modal-open",Boolean(activeProjectModal));
+function setModal(modal, open) {
+  if (!modal) return;
+  if (open) {
+    // Close another open project first so body scroll and keyboard state stay in sync.
+    Object.values(projectModals).forEach(other => {
+      if (other && other !== modal) {
+        other.classList.remove("active");
+        other.setAttribute("aria-hidden", "true");
+      }
+    });
+    modal.classList.add("active");
+    modal.setAttribute("aria-hidden", "false");
+    activeProjectModal = modal;
+    document.body.classList.add("modal-open");
+    const closeButton = modal.querySelector(".modal-close");
+    if (closeButton) closeButton.focus({ preventScroll: true });
+  } else {
+    modal.classList.remove("active");
+    modal.setAttribute("aria-hidden", "true");
+    if (activeProjectModal === modal) activeProjectModal = null;
+    document.body.classList.toggle("modal-open", Boolean(activeProjectModal));
+  }
 }
 
-document.querySelectorAll("[data-project-modal]").forEach(btn=>btn.addEventListener("click",()=>setModal(projectModals[btn.dataset.projectModal],true)));
-document.querySelectorAll("[data-modal-close]").forEach(el=>el.addEventListener("click",()=>setModal(el.closest(".project-modal"),false)));
+document.addEventListener("click", event => {
+  const projectButton = event.target.closest("[data-project-modal]");
+  if (projectButton) {
+    event.preventDefault();
+    setModal(projectModals[projectButton.dataset.projectModal], true);
+    return;
+  }
 
-function setLightbox(open,src="",title=""){
-  if(!imageLightbox)return;
-  imageLightbox.classList.toggle("active",open);
-  imageLightbox.setAttribute("aria-hidden",String(!open));
-  if(open){lightboxImage.src=src;lightboxImage.alt=title;lightboxTitle.textContent=title;}
-  else{lightboxImage.src="";lightboxTitle.textContent="";}
+  const modalClose = event.target.closest("[data-modal-close]");
+  if (modalClose) {
+    const modal = modalClose.closest(".project-modal");
+    if (modal) setModal(modal, false);
+    return;
+  }
+
+  const imageButton = event.target.closest("[data-lightbox-src]");
+  if (imageButton) {
+    event.preventDefault();
+    setLightbox(true, imageButton.dataset.lightboxSrc, imageButton.dataset.lightboxTitle || "Investigation evidence");
+    return;
+  }
+
+  if (event.target.closest("[data-lightbox-close]")) setLightbox(false);
+});
+
+function setLightbox(open, src = "", title = "") {
+  if (!imageLightbox || !lightboxImage || !lightboxTitle) return;
+  imageLightbox.classList.toggle("active", open);
+  imageLightbox.setAttribute("aria-hidden", String(!open));
+  if (open) {
+    lightboxImage.onerror = () => {
+      lightboxImage.alt = "This evidence image could not be loaded. Check that the assets folder was uploaded with the website.";
+      lightboxTitle.textContent = `${title} — image unavailable`;
+    };
+    lightboxImage.src = src;
+    lightboxImage.alt = title;
+    lightboxTitle.textContent = title;
+  } else {
+    lightboxImage.onerror = null;
+    lightboxImage.removeAttribute("src");
+    lightboxTitle.textContent = "";
+  }
 }
 
-document.querySelectorAll("[data-lightbox-src]").forEach(btn=>btn.addEventListener("click",()=>setLightbox(true,btn.dataset.lightboxSrc,btn.dataset.lightboxTitle||"SOC investigation evidence")));
-document.querySelectorAll("[data-lightbox-close]").forEach(el=>el.addEventListener("click",()=>setLightbox(false)));
+// Give broken thumbnail paths a visible, useful fallback instead of a blank tile.
+document.querySelectorAll(".evidence-image-button img").forEach(img => {
+  img.addEventListener("error", () => {
+    img.classList.add("image-load-error");
+    img.alt = "Evidence image unavailable — make sure the assets folder was uploaded.";
+    const card = img.closest(".evidence-image-card");
+    if (card) {
+      const note = card.querySelector("figcaption small");
+      if (note) note.textContent = "Image could not load. Check the assets folder and filename.";
+    }
+  });
+});
 
-document.addEventListener("keydown",e=>{
-  if(e.key!=="Escape")return;
-  if(imageLightbox?.classList.contains("active")){setLightbox(false);return;}
-  if(activeProjectModal?.classList.contains("active"))setModal(activeProjectModal,false);
+document.addEventListener("keydown", event => {
+  if (event.key !== "Escape") return;
+  if (imageLightbox?.classList.contains("active")) {
+    setLightbox(false);
+    return;
+  }
+  if (activeProjectModal?.classList.contains("active")) setModal(activeProjectModal, false);
 });
