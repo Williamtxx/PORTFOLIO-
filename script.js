@@ -46,20 +46,26 @@ if("IntersectionObserver"in window){
 console.log("%cWilliam Arteaga — Cybersecurity Portfolio","color:#50e3b2;font-size:16px;font-weight:bold;");
 
 
-const projectModal=document.getElementById("socL1Modal");
+const projectModals={
+  "soc-l1":document.getElementById("socL1Modal"),
+  "alert-8816":document.getElementById("alert8816Modal")
+};
+let activeProjectModal=null;
 const imageLightbox=document.getElementById("imageLightbox");
 const lightboxImage=document.getElementById("lightboxImage");
 const lightboxTitle=document.getElementById("lightboxTitle");
 
-function setModal(open){
-  if(!projectModal)return;
-  projectModal.classList.toggle("active",open);
-  projectModal.setAttribute("aria-hidden",String(!open));
-  document.body.classList.toggle("modal-open",open);
+function setModal(modal,open){
+  if(!modal)return;
+  modal.classList.toggle("active",open);
+  modal.setAttribute("aria-hidden",String(!open));
+  if(open)activeProjectModal=modal;
+  else if(activeProjectModal===modal)activeProjectModal=null;
+  document.body.classList.toggle("modal-open",Boolean(activeProjectModal));
 }
 
-document.querySelectorAll("[data-project-modal='soc-l1']").forEach(btn=>btn.addEventListener("click",()=>setModal(true)));
-document.querySelectorAll("[data-modal-close]").forEach(el=>el.addEventListener("click",()=>setModal(false)));
+document.querySelectorAll("[data-project-modal]").forEach(btn=>btn.addEventListener("click",()=>setModal(projectModals[btn.dataset.projectModal],true)));
+document.querySelectorAll("[data-modal-close]").forEach(el=>el.addEventListener("click",()=>setModal(el.closest(".project-modal"),false)));
 
 function setLightbox(open,src="",title=""){
   if(!imageLightbox)return;
@@ -75,5 +81,5 @@ document.querySelectorAll("[data-lightbox-close]").forEach(el=>el.addEventListen
 document.addEventListener("keydown",e=>{
   if(e.key!=="Escape")return;
   if(imageLightbox?.classList.contains("active")){setLightbox(false);return;}
-  if(projectModal?.classList.contains("active"))setModal(false);
+  if(activeProjectModal?.classList.contains("active"))setModal(activeProjectModal,false);
 });

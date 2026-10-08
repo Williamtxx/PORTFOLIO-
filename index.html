@@ -87,6 +87,10 @@
 <div class="card-top"><span class="card-number">01</span><span class="card-status">COMPLETED LAB</span></div>
 <div class="project-card-body"><span class="project-status">TRYHACKME SOC L1 LAB / PHISHING TRIAGE</span><h3>TryHackMe SOC Level 1 Lab — SOC L1 Alert Investigation: Phishing Email Triage</h3><p>Completed a hands-on TryHackMe SOC Level 1 lab investigating a simulated phishing alert triggered by an inbound email with a suspicious external onboarding link. I reviewed the alert details, correlated email events in the SIEM, analyzed the URL, checked available proxy/firewall evidence and documented a False Positive verdict based on the evidence.</p><div class="project-tags"><span>Splunk / SIEM</span><span>Phishing Triage</span><span>URL Analysis</span><span>Log Correlation</span></div><button class="project-button" type="button" data-project-modal="soc-l1">View Investigation &amp; Evidence <span>→</span></button></div>
 </article>
+<article class="project-card">
+<div class="card-top"><span class="card-number">02</span><span class="card-status">COMPLETED LAB</span></div>
+<div class="project-card-body"><span class="project-status">TRYHACKME SOC SIMULATOR / ALERT TRIAGE</span><h3>TryHackMe SOC Simulator — High-Severity Malicious URL Alert 8816</h3><p>Investigated a high-severity firewall alert by correlating SIEM network events with a suspicious package-delivery email, checking URL and IP reputation, confirming the request was blocked, and documenting a True Positive with escalation and remediation recommendations.</p><div class="project-tags"><span>Alert Triage</span><span>SIEM Correlation</span><span>IOC Analysis</span><span>Incident Reporting</span></div><button class="project-button" type="button" data-project-modal="alert-8816">View Investigation &amp; Evidence <span>→</span></button></div>
+</article>
 </div>
 <div class="evidence-note"><div class="evidence-icon">i</div><div><strong>Evidence-first portfolio</strong><p>Repository links, screenshots, write-ups and technical documentation are intentionally separated from the project descriptions. Add your real evidence links as projects develop.</p></div></div>
 </div>
@@ -149,7 +153,43 @@
   <div class="modal-backdrop" data-modal-close></div>
   <div class="modal-window" role="dialog" aria-modal="true" aria-labelledby="socL1Title">
     <div class="modal-topbar">
-      <div><span class="modal-kicker">01 / PROJECT EVIDENCE · TRYHACKME</span><h2 id="socL1Title">High-Severity Malicious URL Alert Investigation</h2></div>
+      <div><span class="modal-kicker">01 / PROJECT EVIDENCE</span><h2 id="socL1Title">SOC L1 Alert Investigation — Phishing Email Triage</h2></div>
+      <button class="modal-close" type="button" data-modal-close aria-label="Close project details">×</button>
+    </div>
+    <div class="modal-content">
+      <div class="modal-status"><span></span>COMPLETED SIMULATED SOC INVESTIGATION</div>
+      <div class="modal-summary"><p>Investigated a simulated SOC L1 phishing alert involving an inbound email containing a suspicious external onboarding link. The investigation used SIEM searches, URL analysis and network-log checks to determine whether the alert represented malicious activity.</p></div>
+      <div class="detail-grid">
+        <div class="detail-block"><span class="detail-label">OBJECTIVE</span><p>Determine whether the suspicious onboarding link was malicious and whether the user accessed it.</p></div>
+        <div class="detail-block"><span class="detail-label">VERDICT</span><p><strong>False Positive.</strong> The URL analysis returned CLEAN, related communications identified the domain as a third-party HR onboarding partner, and no URL access was found in the available firewall/proxy evidence.</p></div>
+        <div class="detail-block"><span class="detail-label">TOOLS</span><p>Splunk / SIEM, TryDetectThis URL/IP analysis, email-event searches, proxy and firewall log searches.</p></div>
+        <div class="detail-block"><span class="detail-label">SKILLS DEMONSTRATED</span><p>SOC L1 alert triage, phishing investigation, SIEM correlation, indicator analysis, network-log investigation, evidence-based classification and case reporting.</p></div>
+        <div class="detail-block detail-wide"><span class="detail-label">INVESTIGATION WORKFLOW</span><ol class="investigation-list"><li>Reviewed the inbound phishing alert and extracted the sender, recipient, subject and external URL.</li><li>Correlated email events in the SIEM and reviewed related internal communication.</li><li>Submitted the URL to TryDetectThis and recorded a CLEAN result.</li><li>Queried proxy/firewall evidence for the domain and URL to look for access activity.</li><li>Found no available evidence that the user accessed the URL.</li><li>Classified the alert as a False Positive and documented the reasoning in a SOC case report.</li></ol></div>
+        <div class="detail-block detail-wide"><span class="detail-label">KEY LESSON</span><p>The conclusion was based on available evidence rather than assumptions. In particular, I did not assume the user clicked the link because no evidence of URL access was present in the available logs.</p></div>
+      </div>
+      <div class="evidence-section">
+        <div class="evidence-heading"><div><span class="detail-label">VISUAL EVIDENCE</span><h3>Investigation screenshots</h3></div><p>Nine screenshots document the alert, SIEM searches, URL analysis, network-log checks, verdict and case report.</p></div>
+        <div class="evidence-gallery">
+<figure class="evidence-image-card"><button type="button" class="evidence-image-button" data-lightbox-src="assets/projects/soc-l1-phishing/01-IMG_9255.jpeg" data-lightbox-title="Alert triage"><img src="assets/projects/soc-l1-phishing/01-IMG_9255.jpeg" alt="Alert triage — SOC L1 phishing investigation evidence" loading="lazy"><span class="image-expand">+</span></button><figcaption><strong>Alert triage</strong><small>Inbound phishing alert and initial alert details.</small></figcaption></figure>
+<figure class="evidence-image-card"><button type="button" class="evidence-image-button" data-lightbox-src="assets/projects/soc-l1-phishing/02-IMG_9256.jpeg" data-lightbox-title="URL analysis"><img src="assets/projects/soc-l1-phishing/02-IMG_9256.jpeg" alt="URL analysis — SOC L1 phishing investigation evidence" loading="lazy"><span class="image-expand">+</span></button><figcaption><strong>URL analysis</strong><small>TryDetectThis URL/IP check returned CLEAN.</small></figcaption></figure>
+<figure class="evidence-image-card"><button type="button" class="evidence-image-button" data-lightbox-src="assets/projects/soc-l1-phishing/03-IMG_9257.jpeg" data-lightbox-title="SIEM email events"><img src="assets/projects/soc-l1-phishing/03-IMG_9257.jpeg" alt="SIEM email events — SOC L1 phishing investigation evidence" loading="lazy"><span class="image-expand">+</span></button><figcaption><strong>SIEM email events</strong><small>Correlated email events and message details in the SIEM.</small></figcaption></figure>
+<figure class="evidence-image-card"><button type="button" class="evidence-image-button" data-lightbox-src="assets/projects/soc-l1-phishing/04-IMG_9258.jpeg" data-lightbox-title="Proxy investigation"><img src="assets/projects/soc-l1-phishing/04-IMG_9258.jpeg" alt="Proxy investigation — SOC L1 phishing investigation evidence" loading="lazy"><span class="image-expand">+</span></button><figcaption><strong>Proxy investigation</strong><small>Proxy search returned no matching events in the available time range.</small></figcaption></figure>
+<figure class="evidence-image-card"><button type="button" class="evidence-image-button" data-lightbox-src="assets/projects/soc-l1-phishing/05-IMG_9259.jpeg" data-lightbox-title="URL event correlation"><img src="assets/projects/soc-l1-phishing/05-IMG_9259.jpeg" alt="URL event correlation — SOC L1 phishing investigation evidence" loading="lazy"><span class="image-expand">+</span></button><figcaption><strong>URL event correlation</strong><small>SIEM search for the onboarding URL and related events.</small></figcaption></figure>
+<figure class="evidence-image-card"><button type="button" class="evidence-image-button" data-lightbox-src="assets/projects/soc-l1-phishing/06-IMG_9260.jpeg" data-lightbox-title="Domain investigation"><img src="assets/projects/soc-l1-phishing/06-IMG_9260.jpeg" alt="Domain investigation — SOC L1 phishing investigation evidence" loading="lazy"><span class="image-expand">+</span></button><figcaption><strong>Domain investigation</strong><small>SIEM search showing related events for the domain.</small></figcaption></figure>
+<figure class="evidence-image-card"><button type="button" class="evidence-image-button" data-lightbox-src="assets/projects/soc-l1-phishing/07-IMG_9261.jpeg" data-lightbox-title="False Positive verdict"><img src="assets/projects/soc-l1-phishing/07-IMG_9261.jpeg" alt="False Positive verdict — SOC L1 phishing investigation evidence" loading="lazy"><span class="image-expand">+</span></button><figcaption><strong>False Positive verdict</strong><small>Alert closure with False Positive selected.</small></figcaption></figure>
+<figure class="evidence-image-card"><button type="button" class="evidence-image-button" data-lightbox-src="assets/projects/soc-l1-phishing/08-IMG_9262.jpeg" data-lightbox-title="SOC case report"><img src="assets/projects/soc-l1-phishing/08-IMG_9262.jpeg" alt="SOC case report — SOC L1 phishing investigation evidence" loading="lazy"><span class="image-expand">+</span></button><figcaption><strong>SOC case report</strong><small>Documented entities, reasoning and investigation findings.</small></figcaption></figure>
+<figure class="evidence-image-card"><button type="button" class="evidence-image-button" data-lightbox-src="assets/projects/soc-l1-phishing/09-IMG_9263.jpeg" data-lightbox-title="Investigation evidence"><img src="assets/projects/soc-l1-phishing/09-IMG_9263.jpeg" alt="Investigation evidence — SOC L1 phishing investigation evidence" loading="lazy"><span class="image-expand">+</span></button><figcaption><strong>Investigation evidence</strong><small>Additional SIEM evidence supporting the final classification.</small></figcaption></figure>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="project-modal" id="alert8816Modal" aria-hidden="true">
+  <div class="modal-backdrop" data-modal-close></div>
+  <div class="modal-window" role="dialog" aria-modal="true" aria-labelledby="alert8816Title">
+    <div class="modal-topbar">
+      <div><span class="modal-kicker">01 / PROJECT EVIDENCE · TRYHACKME</span><h2 id="alert8816Title">High-Severity Malicious URL Alert Investigation</h2></div>
       <button class="modal-close" type="button" data-modal-close aria-label="Close project details">×</button>
     </div>
     <div class="modal-content">
